@@ -1,0 +1,10 @@
+# main links
+main:
+  - title: "Home"
+    url: https://synoti21.github.io
+  - title: "Categories"
+    url: /categories/
+  # - title: "Sample Collections"
+  #   url: /collection-archive/
+  # - title: "Sitemap"
+  #   url: /sitemap/
