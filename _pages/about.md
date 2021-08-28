@@ -1,8 +1,8 @@
 ---
-title : "블로그 설명"
+title : "About Me"
 permalink : /about/
 layout : single
-author_profile : true
+author_profile : False
 ---
 
 ## Jason Ahn의 개발 블로그

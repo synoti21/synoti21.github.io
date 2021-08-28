@@ -1,7 +1,7 @@
 # main links
 main:
-  - title: "Home"
-    url: https://synoti21.github.io
+  - title: "About"
+    url: https://synoti21.github.io/about
   - title: "Categories"
     url: /categories/
   # - title: "Sample Collections"
