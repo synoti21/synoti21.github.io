@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-29T21:55:28+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jason Ahn</title><subtitle>My own website.</subtitle><author><name>Jason Ahn</name><email>synoti21@gmail.com</email></author><entry><title type="html">해시법(2)</title><link href="http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(2)/" rel="alternate" type="text/html" title="해시법(2)" /><published>2021-08-26T00:00:00+09:00</published><updated>2021-08-26T00:00:00+09:00</updated><id>http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(2)</id><content type="html" xml:base="http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(2)/">&lt;h1 id=&quot;해시법2---오픈-주소법-open-addressing&quot;&gt;해시법(2) - 오픈 주소법 (open addressing)&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;오픈 주소법 (open addressing)은 해시 충돌시 사용하는 해결법이다. 다만 해시 체인법의 연장선은
+아닌 다른 개념의 해결법이다.&lt;/p&gt;
+
+&lt;p&gt;어떤 한 원소를 추가할 때, 해당하는 버킷에 이미 다른 원소가 있을 경우, 재해시를 하여 그 옆에 있는 버킷을
+살펴본다. 이 때 발생할 수 있는 문제점은 어떤 해시키를 가지고 있는 원소를 삭제했으면 해당 인덱스에 있는
+버킷은 비어져 있으므로 자칫 같은 해시키를 가진 다른 원소의 검색이 실패할 수 있다는 것이다.
+이를 통해 해당 인덱스의 버킷에 있는 원소를 삭제했을 경우, 따로 표시를 해두어 혼동하지 않게 한다.&lt;/p&gt;
+
+&lt;p&gt;예를 들어, 2와 15의 해시값은 2로 동일하다. 2는 인덱스 2에, 15는 오픈 주소법에 의해 인덱스 3에
+저장되어 있다고 하고, 2를 삭제했다고 하면 인덱스 2는 삭제된 상태로 남겨진다. 때문에 15를 찾는다고 해도
+인덱스 2는 ‘비워져 있는 상태’가 아닌 ‘삭제된 상태’이므로 정상적으로 그 다음 인덱스로 넘어가서 15를
+찾을 수 있게 된다.&lt;/p&gt;
+
+&lt;p&gt;그렇기 때문에 각 인덱스 테이블은 상태가 총 3가지로 존재한다. EMPTY, OCCUPIED, 그리고 DELETED로
+나뉘어져 있다.&lt;/p&gt;
+
+&lt;p&gt;오픈 주소법의 특징은 ‘검색’기능에서 찾을 수 있다. 아래 코드가 위에서 말한 EMPTY상태와 DELETED 상태를
+구분해준다.&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;search_node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EMPTY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; 
+            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OCCUPIED&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rehash_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;이전에 해당 인덱스에서 원소가 사라진 적이 있는 경우, DELETED상태로 되어 있으므로
+break하지 않고 for문을 실행한다. 찾는 key값이 나올 때 까지 for 문이 실행되고, key값이 발견되면 해당 테이블의 노드를 return한다. 
+Return한 노드는 search 메서드에서 활용되어 우리가 원하는 결과를 얻는다.&lt;/p&gt;</content><author><name>Jason Ahn</name><email>synoti21@gmail.com</email></author><category term="알고리즘" /><category term="공부" /><summary type="html">검색 알고리즘 - 해시법(2)</summary></entry><entry><title type="html">스택과 큐 - 스택</title><link href="http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%EC%8A%A4%ED%83%9D%EA%B3%BC-%ED%81%90(1)/" rel="alternate" type="text/html" title="스택과 큐 - 스택" /><published>2021-08-26T00:00:00+09:00</published><updated>2021-08-26T00:00:00+09:00</updated><id>http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%EC%8A%A4%ED%83%9D%EA%B3%BC%20%ED%81%90(1)</id><content type="html" xml:base="http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%EC%8A%A4%ED%83%9D%EA%B3%BC-%ED%81%90(1)/">&lt;p&gt;#스택(Stack)
+*****&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/8.png&quot; alt=&quot;제목&quot; /&gt;
+스택은 데이터를 저장하는 방식 중 하나이다. LIFO(Last in First out)방식을 채용하고 있으며, 스택 포인터를 주로 사용한다. 
+따라서 다른 배열 방식보다 비교적 단순한 방식이다. 데이터를 추가하면 포인터 역시 이에 따라 움직이며 이 포인터로 스택 배열의 상태나 데이터 등을 알 수 있다. 
+데이터를 검색할 때는 포인터가 위아래로 움직이며 데이터를 검색한다. 또한, 원소를 내보낼 때는 pop()을 통해 데이터를 마치 상자에서 꺼내듯,
+맨 꼭대기의 원소를 return한다. 
+공부하기 힘들다…&lt;/p&gt;</content><author><name>Jason Ahn</name><email>synoti21@gmail.com</email></author><category term="알고리즘" /><category term="공부" /><summary type="html">스택과 큐(1)</summary></entry><entry><title type="html">해시법(1)</title><link href="http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(1)/" rel="alternate" type="text/html" title="해시법(1)" /><published>2021-08-23T00:00:00+09:00</published><updated>2021-08-24T00:00:00+09:00</updated><id>http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(1)</id><content type="html" xml:base="http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(1)/">&lt;h1 id=&quot;해시법1---체인법&quot;&gt;해시법(1) - 체인법&lt;/h1&gt;
+
+&lt;p&gt;해시법은 원소의 갯수가 n개일 경우, 배열을 n개나 만들어야 하는
+기존의 문제점을 해결하기 위해 만든 법이다.&lt;/p&gt;
+
+&lt;p&gt;특정 규칙 (ex. 문자의 갯수, 나머지 등)을 통해 a개의 배열로 한정지으므로 n이
+아무리 커도 n에 무관하게 딱 a개의 배열만 나오므로 시간 복잡도가 O(1)이라는
+장점이 있다.&lt;/p&gt;
+
+&lt;p&gt;해시법에는 해시노드가 사용되는데, 해시노드는 key(고유 숫자), value
+(실질적인 값), 그리고 next (연결된 다음 해시 노드를 참조할 포인터)로 구성되어 있다.&lt;/p&gt;
+
+&lt;p&gt;해시 배열은 해시테이블 X 원소 갯수(capacity)만큼 이루어져 있다. 나눗셈법으로 이루어진 해시를 예로 들면,
+각 해시테이블에는 key를 capacity로 나눈 해시값에 따라 정렬되어 있으며 해시노드는 상응되는 해시값과 연결된다.
+예를 들어  33같은 경우 해시 값을 구하는 함수인 hash_value에 따라 고유 해시값인 (33%13) 7에 해당하는 해시 테이블에
+연결된다.&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hash_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;isinstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hashlib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sha256&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hexdigest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;이 부분이 해시값을 구하는 부분인데, key값이 int형일 경우 나눗셈법을 통해 해시값을 구하고, 그 외의 형태일 경우는 sha256 알고리즘을 통해 해시값을 구한다&lt;/p&gt;
+
+&lt;h3 id=&quot;원소-추가&quot;&gt;원소 추가&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;add함수는 7에 해당하는 해시 테이블에 원소가 없으면 해시 테이블이 33해시노드를 참조하도록 한다.
+만약 원소가 있으면 (ex 20) 해당 해시 테이블은 이미 20을 참조하고 있는 상태이므로, 동일한 해시 테이블을
+next로 가지고 있는 33해시노드를 생성한 후(이 때 33해시노드는 20해시노드를 next를 통해 참조한 형태가 된다.
+또한 next의 종류는 노드 포인터다), 7 해시 테이블이 33해시노드를 참조하도록 한다. (self.table[hash] = temp)&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#this while statement checks if the same key exists
+&lt;/span&gt;            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#First, make the &apos;New Node, and the empty table(=self.table[hash]) moves to the New Node&apos;s &apos;next&apos;
+&lt;/span&gt;        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#makes the existing hash table point the New Node(=temp)
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;원소-제거&quot;&gt;원소 제거&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;remove 함수는 예를들어 7 해시 테이블에 33-&amp;gt;20 해시노드 순서로 연결되어 있고, 20을 없애고 싶으면
+해시노드 포인터 p와 pp(pp는 None으로 초기화한다)를 만들고 p가 pp보다 한단계 앞선 상태로 만든다.
+p가 20에 도달할경우 20해시노드의 next는 none인 상태이므로, 20해시노드를 가리키고 있는 33해시노드의 next에,
+none을 가리키고 있는 20해시노드의 next를 대입 시킨다. 그렇게 되면 33해시노드는 none을 가리키고 있게 되므로
+20은 연결이 끊어진 것이나 마찬가지다. 20을 건너뛰었다고 생각하면 된다.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;pp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pp&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#if there&apos;s only one element at following hash
+&lt;/span&gt;                    &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;pp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#switches the node&apos;s next (pp points) to the other node&apos;s next (p points)
+&lt;/span&gt;                &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;pp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jason Ahn</name><email>synoti21@gmail.com</email></author><category term="알고리즘" /><category term="공부" /><summary type="html">검색 알고리즘 - 해시법(1)</summary></entry><entry><title type="html">First post</title><link href="http://localhost:4000/first/" rel="alternate" type="text/html" title="First post" /><published>2021-08-21T00:00:00+09:00</published><updated>2021-08-21T00:00:00+09:00</updated><id>http://localhost:4000/first</id><content type="html" xml:base="http://localhost:4000/first/">&lt;p&gt;#Welcome&lt;/p&gt;
+
+&lt;p&gt;This is my first Jekyll post after discharged from the service.
+I’m learing some great stuffs like hashing (or let’s say basic algorithm)&lt;/p&gt;</content><author><name>Jason Ahn</name><email>synoti21@gmail.com</email></author><summary type="html">#Welcome</summary></entry></feed>

@@ -1,0 +1,629 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>해시법(1) - Jason Ahn</title>
+<meta name="description" content="검색 알고리즘 - 해시법(1)">
+
+
+  <meta name="author" content="Jason Ahn">
+  
+  <meta property="article:author" content="Jason Ahn">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Jason Ahn">
+<meta property="og:title" content="해시법(1)">
+<meta property="og:url" content="http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(1)/">
+
+
+  <meta property="og:description" content="검색 알고리즘 - 해시법(1)">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-23T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2021-08-24T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(1)/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Jason Ahn",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jason Ahn Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Jason Ahn
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://synoti21.github.io/about">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">Jason Ahn</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>An Undergraduate majoring in Computer Science.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Korea - Yongin</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mail to:synoti21@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/synoti21" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/sulzzi_wan" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:synoti21@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="synoti21@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">이메일</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="해시법(1)">
+    <meta itemprop="description" content="검색 알고리즘 - 해시법(1)">
+    <meta itemprop="datePublished" content="2021-08-23T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2021-08-24T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(1)/" class="u-url" itemprop="url">해시법(1)
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <h1 id="해시법1---체인법">해시법(1) - 체인법</h1>
+
+<p>해시법은 원소의 갯수가 n개일 경우, 배열을 n개나 만들어야 하는
+기존의 문제점을 해결하기 위해 만든 법이다.</p>
+
+<p>특정 규칙 (ex. 문자의 갯수, 나머지 등)을 통해 a개의 배열로 한정지으므로 n이
+아무리 커도 n에 무관하게 딱 a개의 배열만 나오므로 시간 복잡도가 O(1)이라는
+장점이 있다.</p>
+
+<p>해시법에는 해시노드가 사용되는데, 해시노드는 key(고유 숫자), value
+(실질적인 값), 그리고 next (연결된 다음 해시 노드를 참조할 포인터)로 구성되어 있다.</p>
+
+<p>해시 배열은 해시테이블 X 원소 갯수(capacity)만큼 이루어져 있다. 나눗셈법으로 이루어진 해시를 예로 들면,
+각 해시테이블에는 key를 capacity로 나눈 해시값에 따라 정렬되어 있으며 해시노드는 상응되는 해시값과 연결된다.
+예를 들어  33같은 경우 해시 값을 구하는 함수인 hash_value에 따라 고유 해시값인 (33%13) 7에 해당하는 해시 테이블에
+연결된다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">hash_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="n">Any</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">key</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">capacity</span>
+        <span class="k">return</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hashlib</span><span class="p">.</span><span class="n">sha256</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">).</span><span class="n">encode</span><span class="p">()).</span><span class="n">hexdigest</span><span class="p">(),</span><span class="mi">16</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">capacity</span><span class="p">)</span>
+</code></pre></div></div>
+<p>이 부분이 해시값을 구하는 부분인데, key값이 int형일 경우 나눗셈법을 통해 해시값을 구하고, 그 외의 형태일 경우는 sha256 알고리즘을 통해 해시값을 구한다</p>
+
+<h3 id="원소-추가">원소 추가</h3>
+<hr />
+<p>add함수는 7에 해당하는 해시 테이블에 원소가 없으면 해시 테이블이 33해시노드를 참조하도록 한다.
+만약 원소가 있으면 (ex 20) 해당 해시 테이블은 이미 20을 참조하고 있는 상태이므로, 동일한 해시 테이블을
+next로 가지고 있는 33해시노드를 생성한 후(이 때 33해시노드는 20해시노드를 next를 통해 참조한 형태가 된다.
+또한 next의 종류는 노드 포인터다), 7 해시 테이블이 33해시노드를 참조하도록 한다. (self.table[hash] = temp)</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="n">Any</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="nb">hash</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">hash_value</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">table</span><span class="p">[</span><span class="nb">hash</span><span class="p">]</span>
+
+        <span class="k">while</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="c1">#this while statement checks if the same key exists
+</span>            <span class="k">if</span> <span class="n">p</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="nb">next</span>
+
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">table</span><span class="p">[</span><span class="nb">hash</span><span class="p">])</span> <span class="c1">#First, make the 'New Node, and the empty table(=self.table[hash]) moves to the New Node's 'next'
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">table</span><span class="p">[</span><span class="nb">hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span> <span class="c1">#makes the existing hash table point the New Node(=temp)
+</span>        <span class="k">return</span> <span class="bp">True</span>    
+</code></pre></div></div>
+
+<h3 id="원소-제거">원소 제거</h3>
+<hr />
+<p>remove 함수는 예를들어 7 해시 테이블에 33-&gt;20 해시노드 순서로 연결되어 있고, 20을 없애고 싶으면
+해시노드 포인터 p와 pp(pp는 None으로 초기화한다)를 만들고 p가 pp보다 한단계 앞선 상태로 만든다.
+p가 20에 도달할경우 20해시노드의 next는 none인 상태이므로, 20해시노드를 가리키고 있는 33해시노드의 next에,
+none을 가리키고 있는 20해시노드의 next를 대입 시킨다. 그렇게 되면 33해시노드는 none을 가리키고 있게 되므로
+20은 연결이 끊어진 것이나 마찬가지다. 20을 건너뛰었다고 생각하면 된다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="nb">hash</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">hash_value</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">table</span><span class="p">[</span><span class="nb">hash</span><span class="p">]</span>
+        <span class="n">pp</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">while</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">pp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="c1">#if there's only one element at following hash
+</span>                    <span class="bp">self</span><span class="p">.</span><span class="n">table</span><span class="p">[</span><span class="nb">hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="nb">next</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pp</span><span class="p">.</span><span class="nb">next</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="nb">next</span> <span class="c1">#switches the node's next (pp points) to the other node's next (p points)
+</span>                <span class="k">return</span> <span class="bp">True</span>
+            <span class="n">pp</span><span class="o">=</span><span class="n">p</span>
+            <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">.</span><span class="nb">next</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#%EA%B3%B5%EB%B6%80" class="page__taxonomy-item p-category" rel="tag">공부</a><span class="sep">, </span>
+    
+      <a href="/categories/#%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98" class="page__taxonomy-item p-category" rel="tag">알고리즘</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time class="dt-published" datetime="2021-08-24">August 24, 2021</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%ED%95%B4%EC%8B%9C%EB%B2%95%281%29%20http%3A%2F%2Flocalhost%3A4000%2F%25EC%2595%258C%25EA%25B3%25A0%25EB%25A6%25AC%25EC%25A6%2598%2F%25EA%25B3%25B5%25EB%25B6%2580%2F%25ED%2595%25B4%25EC%258B%259C%25EB%25B2%2595%281%29%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F%25EC%2595%258C%25EA%25B3%25A0%25EB%25A6%25AC%25EC%25A6%2598%2F%25EA%25B3%25B5%25EB%25B6%2580%2F%25ED%2595%25B4%25EC%258B%259C%25EB%25B2%2595%281%29%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F%25EC%2595%258C%25EA%25B3%25A0%25EB%25A6%25AC%25EC%25A6%2598%2F%25EA%25B3%25B5%25EB%25B6%2580%2F%25ED%2595%25B4%25EC%258B%259C%25EB%25B2%2595%281%29%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/first/" class="pagination--pager" title="First post
+">이전</a>
+    
+    
+      <a href="/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(2)/" class="pagination--pager" title="해시법(2)
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">참고</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%EC%8A%A4%ED%83%9D%EA%B3%BC-%ED%81%90(1)/" rel="permalink">스택과 큐 - 스택
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          최대 1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">스택과 큐(1)
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/%EA%B3%B5%EB%B6%80/%ED%95%B4%EC%8B%9C%EB%B2%95(2)/" rel="permalink">해시법(2)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">검색 알고리즘 - 해시법(2)
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/first/" rel="permalink">First post
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          최대 1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">#Welcome
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/synoti21" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/wldhks_ks" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Jason Ahn. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
