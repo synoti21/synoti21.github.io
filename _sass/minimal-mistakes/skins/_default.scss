@@ -3,3 +3,11 @@
    ========================================================================== */
 
 // Intentionally left blank
+$background-color: #f0f0f0 !default;
+$text-color: #252a34 !default;
+$primary-color: #23272e !default;
+$link-color: mix($background-color, $text-color, 30%) !default;
+$link-color-hover: mix(#fff, $link-color, 25%) !default;
+$link-color-visited: mix(#000, $link-color, 25%) !default;
+$footer-background-color: mix(#000, $background-color, 10%) !default;
+$border-color: mix(#fff, $primary-color, 75%) !default;
