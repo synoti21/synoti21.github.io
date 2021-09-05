@@ -58,7 +58,7 @@ reCaptcha:
   secret                 :
 atom_feed:
   path                   : # blank (default) uses feed.xml
-  hide                   : # true, false (default)
+  hide                   : true
 search                   : # true, false (default)
 search_full_content      : # true, false (default)
 search_provider          : # lunr (default), algolia, google
@@ -282,7 +282,8 @@ defaults:
       type: posts
     values:
       layout: single
+      sidebar_main: true
       author_profile: true
       comments: # true
-      share: true
-      related: true
+      share: false
+      related: false

@@ -1,0 +1,24 @@
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">{{ site.data.ui-text[site.locale].menu_label }}</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <li>
+        <span class="nav__sub-title">Algorithm</span>
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "Algorithm Concept" %}
+                        <li><a href="/categories/algorithm_concept" class="">알고리즘 개념 ({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        <span class="nav__sub-title">Etc</span>
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "Blog Dev" %}
+                        <li><a href="/categories/blog_dev" class="">블로그 제작 ({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+      </li>
+  </ul>
+</nav>
