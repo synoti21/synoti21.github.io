@@ -1,9 +1,10 @@
 ---
 title : "About Me"
 permalink : /about/
-layout : single
+layout : splash
 author_profile : False
 navigation: False
+show_date : False
 ---
 
 ## Jason Ahn의 개발 블로그

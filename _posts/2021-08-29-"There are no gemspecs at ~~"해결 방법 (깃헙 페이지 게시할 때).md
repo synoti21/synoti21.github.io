@@ -1,5 +1,5 @@
 ---
-title: "깃허브 페이지 제작 - Jekyll 관련 에러 해결 방법"
+title: "깃허브 페이지 제작 팁(1) - Jekyll 관련 에러 해결 방법"
 excerpt: "개발 블로그 제작"
 date : 2021-08-29
 categories :
