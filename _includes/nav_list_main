@@ -11,6 +11,13 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "Computer Science" %}
+                        <li><a href="/categories/computer_science" class="">CS ({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
         <span class="nav__sub-title">Algorithm</span>
             <ul>
                 {% for category in site.categories %}
