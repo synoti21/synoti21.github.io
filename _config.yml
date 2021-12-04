@@ -284,6 +284,6 @@ defaults:
       layout: single
       sidebar_main: true
       author_profile: true
-      comments: # true
+      comments: true
       share: false
       related: false
